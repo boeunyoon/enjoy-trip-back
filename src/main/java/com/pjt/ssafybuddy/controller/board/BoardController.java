@@ -33,7 +33,7 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
-    @GetMapping("list")
+    @GetMapping("/list")
     public ResponseEntity<?> findAll(){
         try{
             List<Board> list = boardService.findAllBoard();

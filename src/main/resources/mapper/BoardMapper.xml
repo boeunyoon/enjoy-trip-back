@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pjt.ssafybuddy.mapper.BoardMapper">
+    <resultMap id="BoardResultMap" type="com.pjt.ssafybuddy.entity.board.Board">
+        <id property="id" column="id"/>
+        <result property="category" column="category"/>
+        <result property="content" column="content"/>
+        <result property="title" column="title"/>
+        <result property="writer" column="writer"/>
+        <result property="writeDate" column="write_date" />
+        <result property="readCount" column="read_count"/>
+    </resultMap>
     <insert id="insert" parameterType="com.pjt.ssafybuddy.dto.BoardDTO">
         insert into board(category, content, title, writer, read_count)
         values (#{category}, #{content}, #{title}, #{writer}, 0)
     </insert>
-    <select id="selectById" resultType="com.pjt.ssafybuddy.entity.board.Board">
+    <select id="selectById" resultMap="BoardResultMap">
         select  *
         from board
         where id = #{id}
     </select>
-    <select id="findAllPost" resultType="com.pjt.ssafybuddy.entity.board.Board">
+    <select id="findAllPost" resultMap="BoardResultMap">
         select * from board
     </select>
 </mapper>

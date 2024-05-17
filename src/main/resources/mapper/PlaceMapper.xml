@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.ssafybuddy.mapper.PlaceMapper">
+    <resultMap id="place" type="com.pjt.ssafybuddy.entity.place.Place">
+        <result column="address_name" property="addressName"/>
+        <result column="category_group_code" property="categoryGroupCode"/>
+        <result column="category_group_name" property="categoryGroupName"/>
+        <result column="distance" property="distance"/>
+        <result column="id" property="id"/>
+        <result column="phone" property="phone"/>
+        <result column="place_name" property="placeName"/>
+        <result column="place_url" property="placeUrl"/>
+        <result column="road_address_name" property="roadAddressName"/>
+        <result column="x" property="x"/>
+        <result column="y" property="y"/>
+        <result column="region" property="region"/>
+        <result column="place_id" property="placeId"/>
+    </resultMap>
+
+    <select id="findPlacesByRegionAndCategory" resultMap="place">
+        SELECT *
+        FROM place
+        WHERE region = #{region}
+        AND category_group_name = #{category}
+    </select>
+
+    <select id="findPlaceById" resultMap="place">
+        SELECT *
+        FROM place
+        WHERE place_id = #{placeId}
+    </select>
+</mapper>

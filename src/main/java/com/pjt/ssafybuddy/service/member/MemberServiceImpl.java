@@ -17,7 +17,6 @@ public class MemberServiceImpl implements MemberService{
         if(member == null) {
             return null;
         }
-        System.out.println(member + " memberService");
         return member;
     }
 
@@ -28,13 +27,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public int regist(Member member) throws SQLException {
-        System.out.println(member);
         return memberMapper.insert(member);
     }
 
     @Override
     public void saveRefreshToken(String userId, String refreshToken) throws SQLException {
-        System.out.println(refreshToken + " " + userId);
         memberMapper.saveRefreshToken(userId, refreshToken);
     }
 

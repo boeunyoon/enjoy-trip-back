@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.ssafybuddy.mapper.BoardLikeMapper">
+    <insert id="insert" parameterType="com.pjt.ssafybuddy.entity.board.BoardLike">
+        insert into board_like(user_id, board_id)
+        values (#{userId}, #{boardId})
+    </insert>
+    <select id="countLikes">
+        select  COUNT(*)
+        from board_like
+        where board_id = #{boardId}
+    </select>
+    <delete id="deleteLike">
+        delete from board_like
+        where board_id = #{boardId}
+        and user_id = #{userId}
+    </delete>
+    <select id="existsLike" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM board_like WHERE board_id = #{boardId} AND user_id = #{userId}
+    </select>
+</mapper>

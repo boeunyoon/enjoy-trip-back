@@ -15,4 +15,6 @@ public class Board {
     private String writer;
     private String writeDate;
     private int readCount;
+    private int likeCount;
+    private int commentCount;
 }

@@ -9,22 +9,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/place")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class PlaceController {
+    private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
     private final PlaceService placeService;
 
     @GetMapping("/search")
     public ResponseEntity<?> searchPlaces(@RequestParam("region") String region,
                                           @RequestParam("category") String category) {
         try {
+            logger.info("Searching for places in region: {} and category: {}", region, category);
             List<Place> places = placeService.getPlacesByRegionAndCategory(region, category);
             if (places.isEmpty()) {
                 return new ResponseEntity<>("No places found.", HttpStatus.NO_CONTENT);
             } else {
+                logger.info("Places found: {}", places.size());
                 return new ResponseEntity<>(places, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -35,7 +40,9 @@ public class PlaceController {
     @GetMapping("/{placeId}")
     public ResponseEntity<?> getPlaceById(@PathVariable int placeId) {
         try {
+            logger.info("Fetching place with ID: {}", placeId);
             Place place = placeService.getPlaceById(placeId);
+            logger.info("Fetched place: {}", place);
             return new ResponseEntity<>(place, HttpStatus.OK);
         } catch (Exception e) {
             return exceptionHandling(e);

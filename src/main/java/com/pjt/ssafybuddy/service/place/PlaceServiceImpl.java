@@ -16,6 +16,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<Place> getPlacesByRegionAndCategory(String region, String category) throws SQLException {
+        System.out.println("Service layer: fetching places with region " + region + " and category " + category); // Add this line
         return placeMapper.findPlacesByRegionAndCategory(region, category);
     }
 

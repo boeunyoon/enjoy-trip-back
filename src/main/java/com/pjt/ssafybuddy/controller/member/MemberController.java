@@ -4,23 +4,29 @@ import com.pjt.ssafybuddy.dto.LoginRequest;
 import com.pjt.ssafybuddy.entity.member.Member;
 import com.pjt.ssafybuddy.service.member.MemberService;
 import com.pjt.ssafybuddy.util.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/member")
 @CrossOrigin("*")
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest user){
         try {
+            log.debug("user info : {}" , user);
             String userId = user.getUserId();
             String userPw = user.getUserPw();
             Member member = memberService.login(userId, userPw);
@@ -30,7 +36,7 @@ public class MemberController {
                 memberService.saveRefreshToken(userId, refreshToken);
                 member.setAccessToken(accessToken);
                 member.setRefreshToken(refreshToken);
-                return new ResponseEntity<Member>(member, HttpStatus.OK);
+                return new ResponseEntity<Member>(member, HttpStatus.CREATED);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
@@ -41,6 +47,7 @@ public class MemberController {
     @GetMapping("/{userId}")
     public ResponseEntity<?> findById(@PathVariable("userId") String id) throws SQLException{
         Member member = memberService.findByMemberId(id);
+        log.debug("user id : {}", id);
         return new ResponseEntity<Member>(member, HttpStatus.OK);
     }
     @PostMapping("/regist")
@@ -63,6 +70,25 @@ public class MemberController {
         } catch (Exception e) {
             return exceptionHandling(e);
         }
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Member member, HttpServletRequest request) throws SQLException {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        String token = request.getHeader("refreshToken");
+        if(jwtUtil.checkToken(token)){
+            if(token.equals(memberService.getRefreshToken(member.getUserId()))){
+                String accessToken = jwtUtil.createAccessToken(member.getUserId());
+                log.debug("token : {}", accessToken);
+                log.debug("정상적으로 재발급");
+                resultMap.put("access-token", accessToken);
+                status = HttpStatus.CREATED;
+            }
+        }else{
+            log.debug("refresh token도 사용 불가");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     private ResponseEntity<String> exceptionHandling(Exception e){
         e.printStackTrace();

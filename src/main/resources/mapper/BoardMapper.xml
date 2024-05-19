@@ -9,10 +9,12 @@
         <result property="writer" column="writer"/>
         <result property="writeDate" column="write_date" />
         <result property="readCount" column="read_count"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="commentCount" column="comment_count"/>
     </resultMap>
     <insert id="insert" parameterType="com.pjt.ssafybuddy.dto.BoardDTO">
-        insert into board(category, content, title, writer, read_count)
-        values (#{category}, #{content}, #{title}, #{writer}, 0)
+        insert into board(category, content, title, writer, read_count, like)
+        values (#{category}, #{content}, #{title}, #{writer}, 0, 0)
     </insert>
     <select id="selectById" resultMap="BoardResultMap">
         select  *
@@ -21,5 +23,37 @@
     </select>
     <select id="findAllPost" resultMap="BoardResultMap">
         select * from board
+    </select>
+    <select id="findPostByCategory" resultMap="BoardResultMap">
+        select * from board where category = #{category}
+    </select>
+    <update id="updateBoardLike">
+        update board
+        set like_count = like_count + 1
+        where id = #{boardId}
+    </update>
+    <update id="deleteBoardLike">
+        update board
+        set like_count = like_count - 1
+        where id = #{boardId}
+    </update>
+    <update id="updateBoardComment">
+        update board
+        set comment_count = comment_count + 1
+        where id = #{boardId}
+    </update>
+    <update id="updateReadCount">
+        update board
+        set read_count = read_count + 1
+        where id = #{id}
+    </update>
+    <select id="findPostBLikeCountSort" resultMap="BoardResultMap">
+        select * from board where category = #{category} order by like_count desc
+    </select>
+    <select id="findPostBReadCountSort" resultMap="BoardResultMap">
+        select * from board where category = #{category} order by read_count desc
+    </select>
+    <select id="findPostBCommentCountSort" resultMap="BoardResultMap">
+        select * from board where category = #{category} order by comment_count desc
     </select>
 </mapper>

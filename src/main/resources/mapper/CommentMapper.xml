@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.ssafybuddy.mapper.CommentMapper">
+    <resultMap id="CommentResultMap" type="com.pjt.ssafybuddy.entity.board.Comment">
+        <id property="id" column="id"/>
+        <result property="writer" column="writer"/>
+        <result property="boardId" column="board_id"/>
+        <result property="content" column="content"/>
+        <result property="writeDate" column="write_date"/>
+    </resultMap>
+    <select id="selectAll" resultMap="CommentResultMap">
+        select * from comment where board_id = #{boardId}
+    </select>
+    <insert id="insert" parameterType="com.pjt.ssafybuddy.entity.board.Comment">
+        insert into comment(writer, board_id, content)
+        values (#{writer}, #{boardId}, #{content})
+    </insert>
+    <delete id="delete">
+        delete from comment
+        where id = #{commentId}
+    </delete>
+</mapper>

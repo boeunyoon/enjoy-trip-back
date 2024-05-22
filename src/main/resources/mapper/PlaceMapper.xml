@@ -15,6 +15,7 @@
         <result column="y" property="y"/>
         <result column="region" property="region"/>
         <result column="place_id" property="placeId"/>
+        <result column="like_count" property="likeCount"/>  <!-- New field for like count -->
     </resultMap>
 
     <select id="findPlacesByRegionAndCategory" resultMap="place">
@@ -28,5 +29,34 @@
         SELECT *
         FROM place
         WHERE place_id = #{placeId}
+    </select>
+
+    <update id="incrementLikes">
+        UPDATE place
+        SET like_count = like_count + 1
+        WHERE place_id = #{placeId}
+    </update>
+
+    <update id="decrementLikes">
+        UPDATE place
+        SET like_count = like_count - 1
+        WHERE place_id = #{placeId}
+    </update>
+
+    <insert id="addLike" parameterType="map">
+        INSERT INTO place_like(place_id, user_id)
+        VALUES(#{placeId}, #{userId})
+    </insert>
+
+    <delete id="removeLike" parameterType="map">
+        DELETE FROM place_like
+        WHERE place_id = #{placeId}
+        AND user_id = #{userId}
+    </delete>
+
+    <select id="checkIfUserLiked" resultType="int" parameterType="map">
+        SELECT COUNT(*) FROM place_like
+        WHERE place_id = #{placeId}
+        AND user_id = #{userId}
     </select>
 </mapper>

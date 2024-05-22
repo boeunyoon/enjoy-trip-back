@@ -23,19 +23,22 @@
     </select>
     <insert id="insert" parameterType="Member">
         insert into member(user_id, user_name, user_password, user_email,
-                           nick_name, campus)
+        nick_name, campus)
         values(#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{nickName},
-               #{campus})
+        #{campus})
     </insert>
-    <update id="saveRefreshToken" >
-     update member set refresh_token = #{token} where user_id = #{id}
+    <update id="saveRefreshToken">
+        update member set refresh_token = #{token} where user_id = #{id}
     </update>
-
     <update id="deleteRefreshToken" parameterType="String">
         update member set refresh_token = NULL where user_id = #{userId}
     </update>
-
     <select id="getRefreshToken" parameterType="String">
         select refresh_token from member where user_id = #{userId}
+    </select>
+    <select id="findAllExceptUser" resultMap="member">
+        SELECT *
+        FROM member
+        WHERE user_id != #{userId}
     </select>
 </mapper>

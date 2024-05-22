@@ -1,17 +1,18 @@
 package com.pjt.ssafybuddy.service.review;
 
+
 import com.pjt.ssafybuddy.entity.review.Review;
 import com.pjt.ssafybuddy.mapper.ReviewMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    @Autowired
-    private ReviewMapper reviewMapper;
+    private final ReviewMapper reviewMapper;
 
     @Override
     public Review getReviewById(int id) {
@@ -39,28 +40,34 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<Review> getAllReviews() {
+        return reviewMapper.getAllReviews();
+    }
+
+    @Override
     public void addReview(Review review) {
         reviewMapper.addReview(review);
     }
 
     @Override
     public void likeReview(int reviewId, String userId) {
-        if (reviewMapper.checkIfUserLiked(reviewId, userId) == 0) {
-            reviewMapper.addLike(reviewId, userId);
-            reviewMapper.incrementLikes(reviewId);
-        }
+        reviewMapper.incrementLikes(reviewId);
+        reviewMapper.addLike(reviewId, userId);
     }
 
     @Override
     public void unlikeReview(int reviewId, String userId) {
-        if (reviewMapper.checkIfUserLiked(reviewId, userId) > 0) {
-            reviewMapper.removeLike(reviewId, userId);
-            reviewMapper.decrementLikes(reviewId);
-        }
+        reviewMapper.decrementLikes(reviewId);
+        reviewMapper.removeLike(reviewId, userId);
     }
 
     @Override
     public void deleteReview(int id) {
         reviewMapper.deleteReview(id);
+    }
+
+    @Override
+    public boolean isReviewLikedByUser(int reviewId, String userId) {
+        return reviewMapper.checkIfUserLiked(reviewId, userId) > 0;
     }
 }

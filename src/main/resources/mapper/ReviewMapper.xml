@@ -48,6 +48,12 @@
         ORDER BY likes DESC
     </select>
 
+    <select id="getAllReviews" resultMap="ReviewResultMap"> <!-- Add this select statement -->
+        SELECT *
+        FROM review
+        ORDER BY dateTime DESC
+    </select>
+
     <insert id="addReview" parameterType="com.pjt.ssafybuddy.entity.review.Review">
         INSERT INTO review(writer, title, content, place_id, likes, dateTime, image_url)
         VALUES (#{writer}, #{title}, #{content}, #{placeId}, #{likes}, #{dateTime}, #{imageUrl})

@@ -19,6 +19,8 @@ public interface ReviewMapper {
 
     List<Review> getReviewsByPlaceIdOrderByLikes(@Param("placeId") int placeId);
 
+    List<Review> getAllReviews(); // Add this method
+
     void addReview(Review review);
 
     void incrementLikes(@Param("id") int id);

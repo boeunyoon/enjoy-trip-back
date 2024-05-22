@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.ssafybuddy.mapper.GroupMemberMapper">
+    <resultMap id="GroupMemberResultMap" type="com.pjt.ssafybuddy.entity.group.GroupMember">
+        <id property="groupId" column="group_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="isAdmin" column="is_admin"/>
+    </resultMap>
+
+    <insert id="addMember" parameterType="com.pjt.ssafybuddy.entity.group.GroupMember">
+        INSERT INTO group_members (group_id, user_id, is_admin)
+        VALUES (#{groupId}, #{userId}, #{isAdmin})
+    </insert>
+
+    <delete id="removeMember" parameterType="map">
+        DELETE FROM group_members WHERE group_id = #{groupId} AND user_id = #{userId}
+    </delete>
+
+    <select id="findMembersByGroupId" resultMap="GroupMemberResultMap">
+        SELECT * FROM group_members WHERE group_id = #{groupId}
+    </select>
+
+    <select id="findGroupIdsByUserId" resultType="int">
+        SELECT group_id FROM group_members WHERE user_id = #{userId}
+    </select>
+</mapper>

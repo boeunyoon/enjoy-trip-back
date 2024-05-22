@@ -49,6 +49,24 @@ public class PlaceController {
         }
     }
 
+    @PostMapping("/{placeId}/like")
+    public ResponseEntity<Void> likePlace(@PathVariable int placeId, @RequestParam String userId) {
+        placeService.likePlace(placeId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{placeId}/unlike")
+    public ResponseEntity<Void> unlikePlace(@PathVariable int placeId, @RequestParam String userId) {
+        placeService.unlikePlace(placeId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{placeId}/liked")
+    public ResponseEntity<Boolean> isPlaceLikedByUser(@PathVariable int placeId, @RequestParam String userId) {
+        boolean isLiked = placeService.isPlaceLikedByUser(placeId, userId);
+        return ResponseEntity.ok(isLiked);
+    }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

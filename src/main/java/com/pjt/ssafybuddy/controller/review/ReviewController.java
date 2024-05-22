@@ -16,6 +16,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @GetMapping
+    public ResponseEntity<List<Review>> getAllReviews() {
+        List<Review> reviews = reviewService.getAllReviews();
+        return ResponseEntity.ok(reviews);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable int id) {
         Review review = reviewService.getReviewById(id);
@@ -73,6 +79,12 @@ public class ReviewController {
     public ResponseEntity<Void> unlikeReview(@PathVariable int reviewId, @RequestParam String userId) {
         reviewService.unlikeReview(reviewId, userId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{reviewId}/liked")
+    public ResponseEntity<Boolean> isReviewLikedByUser(@PathVariable int reviewId, @RequestParam String userId) {
+        boolean isLiked = reviewService.isReviewLikedByUser(reviewId, userId);
+        return ResponseEntity.ok(isLiked);
     }
 
     @DeleteMapping("/{id}")

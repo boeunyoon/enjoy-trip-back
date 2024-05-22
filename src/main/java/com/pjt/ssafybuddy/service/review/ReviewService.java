@@ -16,6 +16,8 @@ public interface ReviewService {
 
     List<Review> getReviewsByPlaceIdOrderByLikes(int placeId);
 
+    List<Review> getAllReviews(); // Add this method
+
     void addReview(Review review);
 
     void likeReview(int reviewId, String userId);
@@ -23,4 +25,6 @@ public interface ReviewService {
     void unlikeReview(int reviewId, String userId);
 
     void deleteReview(int id);
+
+    boolean isReviewLikedByUser(int reviewId, String userId);
 }

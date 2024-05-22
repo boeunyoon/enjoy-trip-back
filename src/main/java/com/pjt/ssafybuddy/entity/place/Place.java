@@ -21,4 +21,5 @@ public class Place {
     private String y;
     private String region;
     private int placeId;
+    private int likeCount;
 }

@@ -9,7 +9,17 @@ import java.util.List;
 
 @Mapper
 public interface PlaceMapper {
-    public List<Place> findPlacesByRegionAndCategory(@Param("region") String region, @Param("category") String category) throws SQLException;
+    List<Place> findPlacesByRegionAndCategory(@Param("region") String region, @Param("category") String category) throws SQLException;
 
-    public Place findPlaceById(@Param("placeId") int placeId) throws SQLException;
+    Place findPlaceById(@Param("placeId") int placeId) throws SQLException;
+
+    void incrementLikes(@Param("placeId") int placeId);
+
+    void decrementLikes(@Param("placeId") int placeId);
+
+    void addLike(@Param("placeId") int placeId, @Param("userId") String userId);
+
+    void removeLike(@Param("placeId") int placeId, @Param("userId") String userId);
+
+    int checkIfUserLiked(@Param("placeId") int placeId, @Param("userId") String userId);
 }

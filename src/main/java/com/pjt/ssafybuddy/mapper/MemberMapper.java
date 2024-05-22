@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Mapper
 public interface MemberMapper {
@@ -14,4 +15,5 @@ public interface MemberMapper {
     public void saveRefreshToken(@Param("id") String userId, @Param("token") String refreshToken) throws SQLException;
     public void deleteRefreshToken(String userID) throws SQLException;
     public String getRefreshToken(String userID) throws SQLException;
+    public List<Member> findAllExceptUser(String userId) throws SQLException;
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.ssafybuddy.mapper.GroupMapper">
+    <resultMap id="GroupResultMap" type="com.pjt.ssafybuddy.entity.group.Group">
+        <id property="id" column="id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="type" column="type"/>
+        <result property="groupOwner" column="group_owner"/>
+        <result property="recruitMaxNumber" column="recruit_max_number"/>
+        <result property="region" column="region"/>
+        <result property="isOnline" column="is_online"/>
+        <result property="isRecruiting" column="is_recruiting"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <insert id="createGroup" parameterType="com.pjt.ssafybuddy.entity.group.Group" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `group` (group_name, type, group_owner, recruit_max_number, region, is_online, is_recruiting, content)
+        VALUES (#{groupName}, #{type}, #{groupOwner}, #{recruitMaxNumber}, #{region}, #{isOnline}, #{isRecruiting}, #{content})
+    </insert>
+
+    <select id="findById" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE id = #{id}
+    </select>
+
+    <select id="findByOwner" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE group_owner = #{groupOwner}
+    </select>
+
+    <select id="findAllGroups" resultMap="GroupResultMap">
+        SELECT * FROM `group`
+    </select>
+
+    <select id="findGroupsByRegion" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE region = #{region}
+    </select>
+
+    <select id="findGroupsByType" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE type = #{type}
+    </select>
+
+    <select id="findGroupsByRecruiting" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE is_recruiting = #{isRecruiting}
+    </select>
+
+    <select id="findGroupsByRegionAndType" resultMap="GroupResultMap">
+        SELECT * FROM `group` WHERE region = #{region} AND type = #{type}
+    </select>
+
+    <update id="updateGroup" parameterType="com.pjt.ssafybuddy.entity.group.Group">
+        UPDATE `group`
+        SET group_name = #{groupName}, type = #{type}, group_owner = #{groupOwner}, recruit_max_number = #{recruitMaxNumber}, region = #{region}, is_online = #{isOnline}, is_recruiting = #{isRecruiting}, content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteGroup" parameterType="int">
+        DELETE FROM `group` WHERE id = #{id}
+    </delete>
+
+    <select id="findGroupsByIds" resultMap="GroupResultMap" parameterType="list">
+        SELECT * FROM `group` WHERE id IN
+        <foreach item="id" index="index" collection="groupIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findFilteredGroups" resultMap="GroupResultMap">
+        SELECT * FROM `group`
+        WHERE
+        (#{region} IS NULL OR region = #{region})
+        AND (#{type} IS NULL OR type = #{type})
+        AND (#{isOnline} IS NULL OR is_online = #{isOnline})
+    </select>
+
+    <select id="findGroupsByIsOnline" resultMap="GroupResultMap">
+        SELECT * FROM `group`
+        WHERE is_online = #{isOnline}
+    </select>
+
+    <select id="findGroupsByIsOnlineAndTypeAndRegion" resultMap="GroupResultMap">
+        SELECT * FROM `group`
+        WHERE is_online = #{isOnline}
+        AND (#{type} IS NULL OR type = #{type})
+        AND (#{region} IS NULL OR region = #{region})
+    </select>
+</mapper>

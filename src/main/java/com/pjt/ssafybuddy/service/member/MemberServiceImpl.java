@@ -6,15 +6,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
+
     @Override
     public Member login(String userId, String userPw) throws SQLException {
         Member member = memberMapper.login(userId, userPw);
-        if(member == null) {
+        if (member == null) {
             return null;
         }
         return member;
@@ -43,5 +45,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public String getRefreshToken(String userId) throws SQLException {
         return memberMapper.getRefreshToken(userId);
+    }
+
+    @Override
+    public List<Member> findAllExceptUser(String userId) throws SQLException {
+        return memberMapper.findAllExceptUser(userId);
     }
 }

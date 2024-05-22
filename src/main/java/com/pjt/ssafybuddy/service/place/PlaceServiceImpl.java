@@ -16,12 +16,28 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<Place> getPlacesByRegionAndCategory(String region, String category) throws SQLException {
-        System.out.println("Service layer: fetching places with region " + region + " and category " + category); // Add this line
         return placeMapper.findPlacesByRegionAndCategory(region, category);
     }
 
     @Override
     public Place getPlaceById(int placeId) throws SQLException {
         return placeMapper.findPlaceById(placeId);
+    }
+
+    @Override
+    public void likePlace(int placeId, String userId) {
+        placeMapper.incrementLikes(placeId);
+        placeMapper.addLike(placeId, userId);
+    }
+
+    @Override
+    public void unlikePlace(int placeId, String userId) {
+        placeMapper.decrementLikes(placeId);
+        placeMapper.removeLike(placeId, userId);
+    }
+
+    @Override
+    public boolean isPlaceLikedByUser(int placeId, String userId) {
+        return placeMapper.checkIfUserLiked(placeId, userId) > 0;
     }
 }

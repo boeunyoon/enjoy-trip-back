@@ -21,4 +21,6 @@ public interface BoardService {
     List<Board> findPostBReadCountSort(int category);
     List<Board> findPostBCommentCountSort(int category);
     int updateReadCount(int boardId);
+    List<Board> findPopularPost();
+    List<Board> findRecentPopularPost();
 }

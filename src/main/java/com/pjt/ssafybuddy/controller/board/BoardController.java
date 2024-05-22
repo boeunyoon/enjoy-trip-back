@@ -103,6 +103,33 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
+    @PutMapping("/add/views/{id}")
+    public ResponseEntity<?> addViewCount(@PathVariable int id){
+        try{
+            boardService.updateReadCount(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+    @GetMapping("/list/hot")
+    public ResponseEntity<?> getHotPost(){
+        try{
+            List<Board> result = boardService.findPopularPost();
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+    @GetMapping("/list/recent")
+    public ResponseEntity<?> getRecentHot(){
+        try{
+            List<Board> result = boardService.findRecentPopularPost();
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
     private ResponseEntity<String> exceptionHandling(Exception e){
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

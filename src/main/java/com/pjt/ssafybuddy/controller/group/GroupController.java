@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -31,22 +32,25 @@ public class GroupController {
         }
     }
 
-
-
     @PostMapping("/{groupId}/addMember")
-    public ResponseEntity<?> addMember(@PathVariable int groupId, @RequestBody GroupMember groupMember) {
+    public ResponseEntity<?> addMember(@PathVariable int groupId, @RequestBody Map<String, String> payload) {
         try {
+            String userId = payload.get("userId");
             Group group = groupService.findGroupById(groupId);
-            if (group != null && group.getGroupOwner().equals(groupMember.getUserId())) {
+            if (group != null) {
+                GroupMember groupMember = new GroupMember();
+                groupMember.setGroupId(groupId);
+                groupMember.setUserId(userId);
                 groupMemberService.addMember(groupMember);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return exceptionHandling(e);
         }
     }
+
 
     @DeleteMapping("/{groupId}/removeMember/{userId}")
     public ResponseEntity<?> removeMember(@PathVariable int groupId, @PathVariable String userId, @RequestParam String requesterId) {
@@ -154,13 +158,23 @@ public class GroupController {
         try {
             Group existingGroup = groupService.findGroupById(groupId);
             if (existingGroup != null && existingGroup.getGroupOwner().equals(requesterId)) {
-                groupService.updateGroup(group);
+                // Update the fields of the existing group with the new values
+                existingGroup.setGroupName(group.getGroupName());
+                existingGroup.setType(group.getType());
+                existingGroup.setRegion(group.getRegion());
+                existingGroup.setIsOnline(group.getIsOnline());
+                existingGroup.setRecruitMaxNumber(group.getRecruitMaxNumber());
+                existingGroup.setContent(group.getContent());
+
+                // Save the updated group
+                groupService.updateGroup(existingGroup);
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         } catch (Exception e) {
-            return exceptionHandling(e);
+            e.printStackTrace();
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -213,8 +227,6 @@ public class GroupController {
             return exceptionHandling(e);
         }
     }
-
-
 
     private <T> ResponseEntity<T> exceptionHandling(Exception e) {
         e.printStackTrace();

@@ -6,11 +6,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface MemberService {
-    public Member login(String userId, String userPw) throws SQLException;
-    public Member findByMemberId(String userId) throws SQLException;
-    public int regist(Member member) throws SQLException;
-    public void saveRefreshToken(String userId, String refreshToken) throws SQLException;
-    public void deleteRefreshToken(String userId) throws SQLException;
-    public String getRefreshToken(String userId) throws SQLException;
-    public List<Member> findAllExceptUser(String userId) throws SQLException;
+    Member login(String userId, String userPw) throws SQLException;
+    Member findByMemberId(String userId) throws SQLException;
+    int regist(Member member) throws SQLException;
+    void saveRefreshToken(String userId, String refreshToken) throws SQLException;
+    void deleteRefreshToken(String userId) throws SQLException;
+    String getRefreshToken(String userId) throws SQLException;
+    List<Member> findAllExceptUser(String userId) throws SQLException;
+    List<Member> findMembersNotInGroup(int groupId) throws SQLException;
+    List<String> findAllUserIds() throws SQLException;
 }

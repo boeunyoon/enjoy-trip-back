@@ -11,34 +11,51 @@
         <result column="refresh_token" property="refreshToken"/>
         <result column="access_token" property="accessToken"/>
     </resultMap>
+
     <select id="login" resultMap="member">
         select *
         from member
         where user_id = #{id} and user_password = #{pw}
     </select>
+
     <select id="findByMemberId" resultMap="member">
-        SELECT 	*
-        FROM 	member
-        WHERE 	user_id = #{memberId}
+        SELECT *
+        FROM member
+        WHERE user_id = #{memberId}
     </select>
+
     <insert id="insert" parameterType="Member">
         insert into member(user_id, user_name, user_password, user_email,
         nick_name, campus)
         values(#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{nickName},
         #{campus})
     </insert>
+
     <update id="saveRefreshToken">
         update member set refresh_token = #{token} where user_id = #{id}
     </update>
+
     <update id="deleteRefreshToken" parameterType="String">
         update member set refresh_token = NULL where user_id = #{userId}
     </update>
+
     <select id="getRefreshToken" parameterType="String">
         select refresh_token from member where user_id = #{userId}
     </select>
+
     <select id="findAllExceptUser" resultMap="member">
         SELECT *
         FROM member
         WHERE user_id != #{userId}
+    </select>
+
+    <select id="findMembersNotInGroup" resultMap="member">
+        SELECT *
+        FROM member
+        WHERE user_id NOT IN (SELECT user_id FROM group_members WHERE group_id = #{groupId})
+    </select>
+
+    <select id="findAllUserIds" resultType="string">
+        SELECT user_id FROM member
     </select>
 </mapper>

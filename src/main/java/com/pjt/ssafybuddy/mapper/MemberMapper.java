@@ -9,11 +9,13 @@ import java.util.List;
 
 @Mapper
 public interface MemberMapper {
-    public Member login(@Param("id") String userId, @Param("pw") String userPw) throws SQLException;
-    public Member findByMemberId(String memberId) throws SQLException;
-    public int insert(Member member) throws SQLException;
-    public void saveRefreshToken(@Param("id") String userId, @Param("token") String refreshToken) throws SQLException;
-    public void deleteRefreshToken(String userID) throws SQLException;
-    public String getRefreshToken(String userID) throws SQLException;
-    public List<Member> findAllExceptUser(String userId) throws SQLException;
+    Member login(@Param("id") String userId, @Param("pw") String userPw) throws SQLException;
+    Member findByMemberId(String memberId) throws SQLException;
+    int insert(Member member) throws SQLException;
+    void saveRefreshToken(@Param("id") String userId, @Param("token") String refreshToken) throws SQLException;
+    void deleteRefreshToken(String userID) throws SQLException;
+    String getRefreshToken(String userID) throws SQLException;
+    List<Member> findAllExceptUser(String userId) throws SQLException;
+    List<String> findAllUserIds() throws SQLException;
+    List<Member> findMembersNotInGroup(@Param("groupId") int groupId) throws SQLException;
 }

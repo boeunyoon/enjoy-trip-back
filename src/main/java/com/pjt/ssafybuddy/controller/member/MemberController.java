@@ -106,6 +106,26 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/not-in-group/{groupId}")
+    public ResponseEntity<?> getMembersNotInGroup(@PathVariable int groupId) {
+        try {
+            List<Member> members = memberService.findMembersNotInGroup(groupId);
+            return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @GetMapping("/all-ids")
+    public ResponseEntity<?> getAllUserIds() {
+        try {
+            List<String> userIds = memberService.findAllUserIds();
+            return new ResponseEntity<List<String>>(userIds, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -52,6 +52,7 @@
         WHERE id = #{id}
     </update>
 
+
     <delete id="deleteGroup" parameterType="int">
         DELETE FROM `group` WHERE id = #{id}
     </delete>

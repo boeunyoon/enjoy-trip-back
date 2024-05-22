@@ -76,8 +76,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public int updateGroup(Group group) {
+        logger.info("Updating group with ID: {}", group.getId());
+        logger.info("Updated group details: {}", group);
         return groupMapper.updateGroup(group);
     }
+
 
     @Override
     public int deleteGroup(int id) {

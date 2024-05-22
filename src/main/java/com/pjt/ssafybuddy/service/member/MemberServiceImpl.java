@@ -51,4 +51,14 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> findAllExceptUser(String userId) throws SQLException {
         return memberMapper.findAllExceptUser(userId);
     }
+
+    @Override
+    public List<Member> findMembersNotInGroup(int groupId) throws SQLException {
+        return memberMapper.findMembersNotInGroup(groupId);
+    }
+
+    @Override
+    public List<String> findAllUserIds() throws SQLException {
+        return memberMapper.findAllUserIds();
+    }
 }

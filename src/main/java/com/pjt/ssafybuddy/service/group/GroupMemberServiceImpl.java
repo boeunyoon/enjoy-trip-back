@@ -32,4 +32,6 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     public List<Integer> findGroupIdsByUserId(String userId) {
         return groupMemberMapper.findGroupIdsByUserId(userId);
     }
+
+
 }

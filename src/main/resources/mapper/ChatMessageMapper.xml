@@ -20,11 +20,20 @@
         SELECT * FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
     </select>
 
-    <update id="markMessagesAsRead" parameterType="map">
-        UPDATE chat_messages SET read = true
-        WHERE sender_id = #{senderId} AND receiver_id = #{receiverId} AND read_check = false
+    <update id="markMessagesAsRead">
+        UPDATE chat_messages SET read_check = true
+        WHERE id = #{id} AND read_check = false
     </update>
     <select id="unreadMessageCount">
         SELECT COUNT(*) FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
+    </select>
+    <select id="findAllUserMessage" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_messages WHERE receiver_id = #{receiverId}
+    </select>
+    <select id="findAllUserSendMessage" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_messages WHERE sender_id = #{senderId}
+    </select>
+    <select id="findMessageById" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_messages WHERE id = #{id}
     </select>
 </mapper>

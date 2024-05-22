@@ -43,9 +43,9 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getUnreadMessages(receiverId));
     }
 
-    @PostMapping("/messages/read")
-    public ResponseEntity<Void> markMessagesAsRead(@RequestBody Map<String, String> ids) {
-        chatService.markMessagesAsRead(ids.get("receiverId"), ids.get("senderId"));
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/messages/read")
+//    public ResponseEntity<Void> markMessagesAsRead(@RequestBody Map<String, String> ids) {
+//        chatService.markMessagesAsRead(ids.get("receiverId"), ids.get("senderId"));
+//        return ResponseEntity.ok().build();
+//    }
 }

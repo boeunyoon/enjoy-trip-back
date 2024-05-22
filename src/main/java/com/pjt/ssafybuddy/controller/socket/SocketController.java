@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
@@ -71,6 +72,51 @@ public class SocketController {
         try{
             int count = chatService.getUnreadMessageCount(userId);
             return new ResponseEntity<>(count, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/message/list/received/{userId}")
+    public ResponseEntity<?> getAllReceivedMessage(@PathVariable String userId){
+        try{
+            List<ChatMessage> result = chatService.getUserReceivedMessage(userId);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping ("/message/list/unread/{userId}")
+    public ResponseEntity<?> getUserReceivedUnReadMessage(@PathVariable String userId){
+        try{
+            List<ChatMessage> result = chatService.getUnreadMessages(userId);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/message/list/send/{userId}")
+    public ResponseEntity<?> getUserSendMessage(@PathVariable String userId){
+        try{
+            List<ChatMessage> result = chatService.getUserSendMessage(userId);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PutMapping("/message/read/{id}")
+    public ResponseEntity<?> makeUnreadToRead(@PathVariable int id){
+        try{
+            chatService.markMessagesAsRead(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/message/{id}")
+    public ResponseEntity<?> getMessage(@PathVariable int id){
+        try{
+            ChatMessage message = chatService.getMessage(id);
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

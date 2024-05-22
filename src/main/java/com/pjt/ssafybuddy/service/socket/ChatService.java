@@ -24,10 +24,20 @@ public class ChatService {
     }
 
     @Transactional
-    public void markMessagesAsRead(String receiverId, String senderId) {
-        chatMessageMapper.markMessagesAsRead(senderId, receiverId);
+    public void markMessagesAsRead(int id) {
+        chatMessageMapper.markMessagesAsRead(id);
     }
     public int getUnreadMessageCount(String receiverId){
         return chatMessageMapper.unreadMessageCount(receiverId);
     }
+    public List<ChatMessage> getUserReceivedMessage(String receiverId){
+        return chatMessageMapper.findAllUserMessage(receiverId);
+    }
+    public List<ChatMessage> getUserSendMessage(String senderId){
+        return chatMessageMapper.findAllUserSendMessage(senderId);
+    }
+    public ChatMessage getMessage(int id){
+        return chatMessageMapper.findMessageById(id);
+    }
+
 }

@@ -19,4 +19,11 @@ public interface BoardMapper {
     List<Board> findPostBReadCountSort(int category);
     List<Board> findPostBCommentCountSort(int category);
     int updateReadCount(int id);
+    //인기 있는 게시글 찾기
+    List<Board> findPopularPost();
+    //인기 급상승
+    List<Board> findRecentPopularPost();
+    List<Board> selectMyPost(String userId);
+    List<Board> selectMyLikedPost(String userId);
+
 }

@@ -73,4 +73,14 @@ public class BoardServiceImpl implements BoardService{
     public int updateReadCount(int boardId) {
         return boardMapper.updateReadCount(boardId);
     }
+
+    @Override
+    public List<Board> findPopularPost() {
+        return boardMapper.findPopularPost();
+    }
+
+    @Override
+    public List<Board> findRecentPopularPost() {
+        return boardMapper.findRecentPopularPost();
+    }
 }

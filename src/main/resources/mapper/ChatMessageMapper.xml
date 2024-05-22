@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pjt.ssafybuddy.mapper.ChatMessageMapper">
+    <resultMap id="ChatMessageResultMap" type="com.pjt.ssafybuddy.entity.socket.ChatMessage">
+        <id property="id" column="id"/>
+        <result property="senderId" column="sender_id"/>
+        <result property="receiverId" column="receiver_id"/>
+        <result property="content" column="content"/>
+        <result property="timestamp" column="timestamp"/>
+        <result property="readCheck" column="read_check"/>
+    </resultMap>
+
+    <insert id="saveMessage">
+        INSERT INTO chat_messages (sender_id, receiver_id, content, timestamp, read_check)
+        VALUES (#{senderId}, #{receiverId}, #{content}, now(), false)
+    </insert>
+
+    <select id="findUnreadMessagesByReceiverId" resultMap="ChatMessageResultMap">
+        SELECT * FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
+    </select>
+
+    <update id="markMessagesAsRead" parameterType="map">
+        UPDATE chat_messages SET read = true
+        WHERE sender_id = #{senderId} AND receiver_id = #{receiverId} AND read_check = false
+    </update>
+    <select id="unreadMessageCount">
+        SELECT COUNT(*) FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
+    </select>
+</mapper>

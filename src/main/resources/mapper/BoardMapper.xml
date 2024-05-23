@@ -69,7 +69,7 @@
                (p.read_count * 0.5 + p.like_count * 0.3 + p.comment_count * 0.2) as score
         FROM board p
         ORDER BY score DESC
-            LIMIT 3
+            LIMIT 5
     </select>
     <select id="findRecentPopularPost" resultMap="BoardResultMap">
         SELECT p.id,
@@ -85,7 +85,7 @@
         FROM board p
         WHERE p.write_date > NOW() - INTERVAL 5 DAY
         ORDER BY score DESC
-            LIMIT 3
+            LIMIT 5;
     </select>
     <select id="selectMyPost" resultMap="BoardResultMap">
         select * from board

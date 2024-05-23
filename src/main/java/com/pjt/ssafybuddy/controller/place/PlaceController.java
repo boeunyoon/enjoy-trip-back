@@ -66,6 +66,15 @@ public class PlaceController {
         boolean isLiked = placeService.isPlaceLikedByUser(placeId, userId);
         return ResponseEntity.ok(isLiked);
     }
+    @GetMapping("/like/place/{userId}")
+    public ResponseEntity<?> getMyLikedPlace(@PathVariable String userId){
+        try{
+            List<Place> result = placeService.getMyLikedPlace(userId);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();

@@ -17,7 +17,9 @@
     </insert>
 
     <select id="findUnreadMessagesByReceiverId" resultMap="ChatMessageResultMap">
-        SELECT * FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
+        SELECT * FROM chat_messages
+        WHERE receiver_id = #{receiverId} AND read_check = false
+        order by timestamp desc
     </select>
 
     <update id="markMessagesAsRead">
@@ -28,10 +30,10 @@
         SELECT COUNT(*) FROM chat_messages WHERE receiver_id = #{receiverId} AND read_check = false
     </select>
     <select id="findAllUserMessage" resultMap="ChatMessageResultMap">
-        SELECT * FROM chat_messages WHERE receiver_id = #{receiverId}
+        SELECT * FROM chat_messages WHERE receiver_id = #{receiverId} order by timestamp desc
     </select>
     <select id="findAllUserSendMessage" resultMap="ChatMessageResultMap">
-        SELECT * FROM chat_messages WHERE sender_id = #{senderId}
+        SELECT * FROM chat_messages WHERE sender_id = #{senderId} order by timestamp desc
     </select>
     <select id="findMessageById" resultMap="ChatMessageResultMap">
         SELECT * FROM chat_messages WHERE id = #{id}

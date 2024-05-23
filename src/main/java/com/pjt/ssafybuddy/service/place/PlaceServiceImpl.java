@@ -40,4 +40,9 @@ public class PlaceServiceImpl implements PlaceService {
     public boolean isPlaceLikedByUser(int placeId, String userId) {
         return placeMapper.checkIfUserLiked(placeId, userId) > 0;
     }
+
+    @Override
+    public List<Place> getMyLikedPlace(String userId) {
+        return placeMapper.selectMyLikedPlace(userId);
+    }
 }

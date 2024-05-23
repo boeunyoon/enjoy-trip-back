@@ -27,7 +27,7 @@
     </select>
 
     <select id="findAllGroups" resultMap="GroupResultMap">
-        SELECT * FROM `group`
+        SELECT * FROM `group` order by id desc
     </select>
 
     <select id="findGroupsByRegion" resultMap="GroupResultMap">

@@ -15,4 +15,5 @@ public interface PlaceService {
     void unlikePlace(int placeId, String userId);
 
     boolean isPlaceLikedByUser(int placeId, String userId);
+    List<Place> getMyLikedPlace(String userId);
 }

@@ -59,4 +59,10 @@
         WHERE place_id = #{placeId}
         AND user_id = #{userId}
     </select>
+    <select id="selectMyLikedPlace" resultMap="place">
+        SELECT p.*
+        FROM place_like pl
+                 JOIN place p ON pl.place_id = p.place_id
+        WHERE pl.user_id = #{userId};
+    </select>
 </mapper>

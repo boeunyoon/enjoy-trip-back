@@ -14,7 +14,7 @@ public class ChatMessage {
     private String senderId;
     private String receiverId;
     private String content;
-    private Timestamp timestamp;
+    private String timestamp;
     private boolean readCheck;
 
     public ChatMessage(String senderId, String receiverId, String content) {

@@ -22,4 +22,5 @@ public interface PlaceMapper {
     void removeLike(@Param("placeId") int placeId, @Param("userId") String userId);
 
     int checkIfUserLiked(@Param("placeId") int placeId, @Param("userId") String userId);
+    List<Place> selectMyLikedPlace(String userId);
 }

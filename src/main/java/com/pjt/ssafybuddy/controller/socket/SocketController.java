@@ -32,12 +32,15 @@ public class SocketController {
     // 정의한 SocketVO를 1) 인자값, 2) 반환값으로 사용합니다.
     public SocketVO SocketHandler(SocketVO socketVO) {
         // vo에서 getter로 userName을 가져옵니다.
-        String userName = socketVO.getUserName();
+        System.out.println(socketVO.getContent() + socketVO.getSenderId() + socketVO.getReceiverId());
+        String sender = socketVO.getSenderId();
+        String receiver = socketVO.getReceiverId();
         // vo에서 setter로 content를 가져옵니다.
         String content = socketVO.getContent();
+        System.out.println();
 
         // 생성자로 반환값을 생성합니다.
-        SocketVO result = new SocketVO(userName, content);
+        SocketVO result = new SocketVO(sender, receiver,content);
         // 반환
         return result;
     }
@@ -53,6 +56,7 @@ public class SocketController {
         // vo에서 setter로 content를 가져옵니다.
         String content = message.getContent();
         Map<String, Object> resultMap = new HashMap<>();
+
 
         // 생성자로 반환값을 생성합니다.
         ChatMessage result = new ChatMessage(senderId, reciverId, content);

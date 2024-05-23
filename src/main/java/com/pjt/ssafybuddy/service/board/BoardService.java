@@ -23,4 +23,5 @@ public interface BoardService {
     int updateReadCount(int boardId);
     List<Board> findPopularPost();
     List<Board> findRecentPopularPost();
+    List<Board> selectSameCampus(int category, String campus);
 }

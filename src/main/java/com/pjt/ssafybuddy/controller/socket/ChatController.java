@@ -34,6 +34,7 @@ public class ChatController {
     public void sendPrivateMessage(ChatMessage message) {
         String receiverId = message.getReceiverId();
         System.out.println(message.getContent());
+        System.out.println(message.getReceiverId());
         chatService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getContent());
         template.convertAndSendToUser(message.getReceiverId().toString(), "/queue/private", message);
     }

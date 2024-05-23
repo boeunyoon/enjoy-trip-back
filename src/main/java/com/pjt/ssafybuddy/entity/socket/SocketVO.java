@@ -11,9 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class SocketVO {
-    // 유저의 이름을 저장하기 위한 변수
-    private String userName;
-
-    // 메시지의 내용을 저장하기 위한 변수
+    private String senderId;
+    private String receiverId;
     private String content;
 }

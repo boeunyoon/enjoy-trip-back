@@ -76,9 +76,15 @@ public class BoardController {
         return new ResponseEntity<>(check, HttpStatus.OK);
     }
     @GetMapping("/list/{category}")
-    public ResponseEntity<?> getListByCategory(@PathVariable int category){
+    public ResponseEntity<?> getListByCategory(@PathVariable int category,
+                                               @RequestParam("campus") String campus){
         try{
-            List<Board> result = boardService.findPostByCategory(category);
+            List<Board> result = null;
+            if(category == 2){
+                result = boardService.selectSameCampus(category, campus);
+            }else{
+                result = boardService.findPostByCategory(category);
+            }
             return new ResponseEntity<>(result, HttpStatus.OK);
         }catch (Exception e){
             return exceptionHandling(e);

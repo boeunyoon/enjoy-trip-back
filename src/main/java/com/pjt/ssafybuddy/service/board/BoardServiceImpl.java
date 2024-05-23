@@ -83,4 +83,9 @@ public class BoardServiceImpl implements BoardService{
     public List<Board> findRecentPopularPost() {
         return boardMapper.findRecentPopularPost();
     }
+
+    @Override
+    public List<Board> selectSameCampus(int category, String campus) {
+        return boardMapper.selectSameCampus(category, campus);
+    }
 }

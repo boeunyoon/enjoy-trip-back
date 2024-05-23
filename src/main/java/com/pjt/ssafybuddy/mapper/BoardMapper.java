@@ -25,5 +25,7 @@ public interface BoardMapper {
     List<Board> findRecentPopularPost();
     List<Board> selectMyPost(String userId);
     List<Board> selectMyLikedPost(String userId);
+    //우리 게시판(같은 캠퍼스만 볼수있음)
+    List<Board> selectSameCampus(int category, String campus);
 
 }

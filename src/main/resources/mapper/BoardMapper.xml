@@ -106,4 +106,10 @@
         inner join board_like bl on b.id = bl.board_id
         where bl.user_id = #{userId}
     </select>
+    <select id="selectSameCampus" resultMap="BoardResultMap">
+        SELECT b.*
+        FROM board b
+                 JOIN member m ON b.writer = m.user_id
+        WHERE b.category = #{category} AND m.campus = #{campus}
+    </select>
 </mapper>

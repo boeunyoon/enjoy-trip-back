@@ -15,4 +15,5 @@ public interface MemberService {
     List<Member> findAllExceptUser(String userId) throws SQLException;
     List<Member> findMembersNotInGroup(int groupId) throws SQLException;
     List<String> findAllUserIds() throws SQLException;
+    void updateProfileImage(String userId, String imageUrl) throws SQLException; // Added method
 }

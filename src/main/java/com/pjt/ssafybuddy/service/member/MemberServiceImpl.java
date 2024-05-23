@@ -61,4 +61,9 @@ public class MemberServiceImpl implements MemberService {
     public List<String> findAllUserIds() throws SQLException {
         return memberMapper.findAllUserIds();
     }
+
+    @Override
+    public void updateProfileImage(String userId, String imageUrl) throws SQLException {
+        memberMapper.updateProfileImage(userId, imageUrl);
+    }
 }

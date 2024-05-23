@@ -3,6 +3,7 @@ package com.pjt.ssafybuddy.controller.member;
 import com.pjt.ssafybuddy.dto.LoginRequest;
 import com.pjt.ssafybuddy.entity.member.Member;
 import com.pjt.ssafybuddy.service.member.MemberService;
+import com.pjt.ssafybuddy.service.s3.S3Service;
 import com.pjt.ssafybuddy.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
+    private final S3Service s3Service;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest user) {
@@ -126,8 +131,30 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/uploadProfileImage")
+    public ResponseEntity<?> uploadProfileImage(@RequestParam("userId") String userId, @RequestParam("file") MultipartFile multipartFile) {
+        try {
+            File file = convertMultiPartToFile(multipartFile);
+            String imageUrl = s3Service.uploadFile(file);
+            memberService.updateProfileImage(userId, imageUrl);
+            return new ResponseEntity<>(imageUrl, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private File convertMultiPartToFile(MultipartFile file) {
+        File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+        try {
+            file.transferTo(convFile);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to convert MultipartFile to File", e);
+        }
+        return convFile;
     }
 }

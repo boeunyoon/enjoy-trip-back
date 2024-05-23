@@ -16,4 +16,5 @@ public class Member {
     private String campus;
     private String refreshToken;
     private String accessToken;
+    private String imageUrl;
 }

@@ -18,4 +18,5 @@ public interface MemberMapper {
     List<Member> findAllExceptUser(String userId) throws SQLException;
     List<String> findAllUserIds() throws SQLException;
     List<Member> findMembersNotInGroup(@Param("groupId") int groupId) throws SQLException;
+    void updateProfileImage(@Param("userId") String userId, @Param("imageUrl") String imageUrl) throws SQLException; // Added method
 }
